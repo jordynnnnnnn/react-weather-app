@@ -10,23 +10,28 @@ export default function WeatherForecast(props) {
   function handleResponse(response) {
     console.log("Full response:", response.data);
     console.log("Daily:", response.data.daily);
-    
+
     setForecast(response.data.daily);
     setLoaded(true);
   }
 
   if (loaded) {
-    console.log(forecast)
+    console.log(forecast);
     return (
       <div className="WeatherForecast">
         <div className="row">
-          <div className="col">
-            <WeatherForecastDay data={forecast[0]} />
-          </div>
+          {forecast.map(function (dailyForecast, index) {
+            if (index < 5) {
+              return (
+                <div className="col" key={index}>
+                  <WeatherForecastDay data={dailyForecast} />
+                </div>
+              );
+            }
+          })}
         </div>
       </div>
     );
-  
   } else {
     let apiKey = "ca3401aa9fo6993fde3bf6t53aa16d30";
     let longitude = props.coordinates.longitude;
